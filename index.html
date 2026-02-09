@@ -13,11 +13,62 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-
     <link rel="icon" href="images/icon.png" type="image/icon type" />
+
+    <!-- PDF Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+      .download-btn {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        background: #003147;
+        color: #fff;
+        border: none;
+        padding: 12px 24px;
+        font-family: "Poppins", sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        border-radius: 6px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        transition: background 0.3s, transform 0.2s;
+      }
+      .download-btn:hover {
+        background: #03a9f4;
+        transform: translateY(-2px);
+      }
+      .download-btn:active {
+        transform: translateY(0);
+      }
+      .download-btn .fa {
+        font-size: 16px;
+      }
+      .download-btn.loading {
+        opacity: 0.7;
+        pointer-events: none;
+      }
+
+      @media print {
+        .download-btn {
+          display: none !important;
+        }
+      }
+    </style>
   </head>
   <body>
-    <div class="container">
+    <button class="download-btn" id="downloadBtn" onclick="downloadPDF()">
+      <i class="fa fa-download" aria-hidden="true"></i>
+      Download PDF
+    </button>
+
+    <div class="container" id="resume">
       <div class="left_Side">
         <div class="profileText">
           <h2>Nikoloz Bezhiashvili<br /><span>Data Engineer</span></h2>
@@ -248,25 +299,6 @@
               </p>
             </div>
           </div>
-          <!-- <div class="box">
-            <div class="year_company">
-              <h5>2021 - 2022</h5>
-              <h5>Bank of Georgia</h5>
-            </div>
-            <div class="text">
-              <h4>Advanced HelpDesk Support</h4>
-              <p>
-                First-level 24/7 remote/telephone IT support of JSC "Bank of
-                Georgia" group companies; Registration of requests/incidents
-                recorded in the support service, control over its timely
-                execution and closure after its resolution/implementation;
-                Escalate requests/incidents to the next level, both within and
-                outside the IT department; In case of critical/global
-                problem/defect, its precise identification. 24/7 monitoring of
-                the bank's IT systems.
-              </p>
-            </div>
-          </div> -->
         </div>
 
         <div class="about skills">
@@ -308,7 +340,58 @@
         </div>
       </div>
     </div>
+
+    <script>
+      async function downloadPDF() {
+        const btn = document.getElementById('downloadBtn');
+        const resume = document.getElementById('resume');
+
+        // Show loading state
+        btn.classList.add('loading');
+        btn.innerHTML = '<i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Generating...';
+
+        try {
+          // Capture the resume container as a canvas
+          const canvas = await html2canvas(resume, {
+            scale: 2,
+            useCORS: true,
+            logging: false,
+            backgroundColor: '#ffffff'
+          });
+
+          const { jsPDF } = window.jspdf;
+
+          // Calculate dimensions to fit A4
+          const imgWidth = 210; // A4 width in mm
+          const pageHeight = 297; // A4 height in mm
+          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+          const pdf = new jsPDF('p', 'mm', 'a4');
+          let heightLeft = imgHeight;
+          let position = 0;
+
+          // Add first page
+          pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, position, imgWidth, imgHeight);
+          heightLeft -= pageHeight;
+
+          // Add more pages if content overflows
+          while (heightLeft > 0) {
+            position = heightLeft - imgHeight;
+            pdf.addPage();
+            pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+          }
+
+          pdf.save('Nikoloz_Bezhiashvili_Resume.pdf');
+        } catch (error) {
+          console.error('PDF generation failed:', error);
+          alert('Failed to generate PDF. Please try again.');
+        }
+
+        // Reset button
+        btn.classList.remove('loading');
+        btn.innerHTML = '<i class="fa fa-download" aria-hidden="true"></i> Download PDF';
+      }
+    </script>
   </body>
 </html>
-
-
