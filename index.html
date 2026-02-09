@@ -351,9 +351,9 @@
         btn.innerHTML = '<i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Generating...';
 
         try {
-          // Capture the resume container as a high-quality canvas
+          // Use scale 1.5 instead of 2 — still sharp but much smaller file
           const canvas = await html2canvas(resume, {
-            scale: 2,
+            scale: 1.5,
             useCORS: true,
             logging: false,
             backgroundColor: '#ffffff'
@@ -361,23 +361,24 @@
 
           const { jsPDF } = window.jspdf;
 
-          // Always fill full width of A4, scale height proportionally
-          const pageWidth = 210;   // A4 width in mm
-          const pageHeight = 297;  // A4 height in mm
+          const pageWidth = 210;
+          const pageHeight = 297;
           const imgHeight = (canvas.height * pageWidth) / canvas.width;
-
-          // Use custom page size matching the image aspect ratio if taller than A4,
-          // so everything fits on one page with no blank space
           const pdfHeight = Math.max(pageHeight, imgHeight);
           const pdf = new jsPDF('p', 'mm', [pageWidth, pdfHeight]);
 
+          // Use JPEG at 0.85 quality instead of PNG — drops size from ~24MB to ~2-4MB
+          const imgData = canvas.toDataURL('image/jpeg', 0.85);
+
           pdf.addImage(
-            canvas.toDataURL('image/png'),
-            'PNG',
+            imgData,
+            'JPEG',
             0,
             0,
             pageWidth,
-            imgHeight
+            imgHeight,
+            undefined,
+            'FAST'  // jsPDF compression mode
           );
 
           pdf.save('Nikoloz_Bezhiashvili_Resume.pdf');
