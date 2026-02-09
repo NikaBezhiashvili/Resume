@@ -360,36 +360,24 @@
           });
 
           const { jsPDF } = window.jspdf;
-          const pdf = new jsPDF('p', 'mm', 'a4');
 
+          // Always fill full width of A4, scale height proportionally
           const pageWidth = 210;   // A4 width in mm
           const pageHeight = 297;  // A4 height in mm
+          const imgHeight = (canvas.height * pageWidth) / canvas.width;
 
-          // Calculate aspect ratios to fit everything on one page
-          const imgRatio = canvas.width / canvas.height;
-          const pageRatio = pageWidth / pageHeight;
-
-          let finalWidth, finalHeight, offsetX = 0, offsetY = 0;
-
-          if (imgRatio > pageRatio) {
-            // Content is wider — constrain by width
-            finalWidth = pageWidth;
-            finalHeight = pageWidth / imgRatio;
-            offsetY = (pageHeight - finalHeight) / 2;
-          } else {
-            // Content is taller — constrain by height so it fits on one page
-            finalHeight = pageHeight;
-            finalWidth = pageHeight * imgRatio;
-            offsetX = (pageWidth - finalWidth) / 2;
-          }
+          // Use custom page size matching the image aspect ratio if taller than A4,
+          // so everything fits on one page with no blank space
+          const pdfHeight = Math.max(pageHeight, imgHeight);
+          const pdf = new jsPDF('p', 'mm', [pageWidth, pdfHeight]);
 
           pdf.addImage(
             canvas.toDataURL('image/png'),
             'PNG',
-            offsetX,
-            offsetY,
-            finalWidth,
-            finalHeight
+            0,
+            0,
+            pageWidth,
+            imgHeight
           );
 
           pdf.save('Nikoloz_Bezhiashvili_Resume.pdf');
