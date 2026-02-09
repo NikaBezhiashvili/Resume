@@ -351,7 +351,7 @@
         btn.innerHTML = '<i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Generating...';
 
         try {
-          // Capture the resume container as a canvas
+          // Capture the resume container as a high-quality canvas
           const canvas = await html2canvas(resume, {
             scale: 2,
             useCORS: true,
@@ -360,27 +360,37 @@
           });
 
           const { jsPDF } = window.jspdf;
-
-          // Calculate dimensions to fit A4
-          const imgWidth = 210; // A4 width in mm
-          const pageHeight = 297; // A4 height in mm
-          const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
           const pdf = new jsPDF('p', 'mm', 'a4');
-          let heightLeft = imgHeight;
-          let position = 0;
 
-          // Add first page
-          pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, position, imgWidth, imgHeight);
-          heightLeft -= pageHeight;
+          const pageWidth = 210;   // A4 width in mm
+          const pageHeight = 297;  // A4 height in mm
 
-          // Add more pages if content overflows
-          while (heightLeft > 0) {
-            position = heightLeft - imgHeight;
-            pdf.addPage();
-            pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, position, imgWidth, imgHeight);
-            heightLeft -= pageHeight;
+          // Calculate aspect ratios to fit everything on one page
+          const imgRatio = canvas.width / canvas.height;
+          const pageRatio = pageWidth / pageHeight;
+
+          let finalWidth, finalHeight, offsetX = 0, offsetY = 0;
+
+          if (imgRatio > pageRatio) {
+            // Content is wider — constrain by width
+            finalWidth = pageWidth;
+            finalHeight = pageWidth / imgRatio;
+            offsetY = (pageHeight - finalHeight) / 2;
+          } else {
+            // Content is taller — constrain by height so it fits on one page
+            finalHeight = pageHeight;
+            finalWidth = pageHeight * imgRatio;
+            offsetX = (pageWidth - finalWidth) / 2;
           }
+
+          pdf.addImage(
+            canvas.toDataURL('image/png'),
+            'PNG',
+            offsetX,
+            offsetY,
+            finalWidth,
+            finalHeight
+          );
 
           pdf.save('Nikoloz_Bezhiashvili_Resume.pdf');
         } catch (error) {
