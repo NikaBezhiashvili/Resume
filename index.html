@@ -1,396 +1,447 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Nikoloz Bezhiashvili Resume</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
-      integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <link rel="icon" href="images/icon.png" type="image/icon type" />
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Nikoloz Bezhiashvili — Data Engineer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Nikoloz Bezhiashvili — Data Engineer. SAP-to-ClickHouse data warehouse migration, ETL/ELT, Python, Airflow." />
 
-    <!-- PDF Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+  integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+<link rel="icon" href="images/icon.png" type="image/x-icon" />
 
-    <style>
-      .download-btn {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 1000;
-        background: #003147;
-        color: #fff;
-        border: none;
-        padding: 12px 24px;
-        font-family: "Poppins", sans-serif;
-        font-size: 14px;
-        font-weight: 500;
-        border-radius: 6px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        transition: background 0.3s, transform 0.2s;
-      }
-      .download-btn:hover {
-        background: #03a9f4;
-        transform: translateY(-2px);
-      }
-      .download-btn:active {
-        transform: translateY(0);
-      }
-      .download-btn .fa {
-        font-size: 16px;
-      }
-      .download-btn.loading {
-        opacity: 0.7;
-        pointer-events: none;
-      }
+<!-- PDF Libraries (unchanged) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-      @media print {
-        .download-btn {
-          display: none !important;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <button class="download-btn" id="downloadBtn" onclick="downloadPDF()">
-      <i class="fa fa-download" aria-hidden="true"></i>
-      Download PDF
-    </button>
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4b5b6b;
+    --accent: #003147;
+    --accent-2: #03a9f4;
+    --line: #e2e7eb;
+    --bg-tag: #eef4f8;
+    --paper: #ffffff;
+    --page: #f4f6f8;
+    --maxw: 780px;
+  }
 
-    <div class="container" id="resume">
-      <div class="left_Side">
-        <div class="profileText">
-          <h2>Nikoloz Bezhiashvili<br /><span>Data Engineer</span></h2>
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--ink);
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .download-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s, transform 0.2s;
+  }
+  .download-btn:hover { background: var(--accent-2); transform: translateY(-2px); }
+  .download-btn:active { transform: translateY(0); }
+  .download-btn .fa { font-size: 16px; }
+  .download-btn.loading { opacity: 0.7; pointer-events: none; }
+  @media print { .download-btn { display: none !important; } }
+
+  .container {
+    max-width: var(--maxw);
+    margin: 48px auto 80px;
+    background: var(--paper);
+    padding: 48px 56px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+
+  header.top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 18px;
+    margin-bottom: 26px;
+  }
+  header.top h1 {
+    margin: 0 0 4px;
+    font-size: 28px;
+    letter-spacing: 0.2px;
+    color: var(--accent);
+  }
+  header.top .role {
+    margin: 0;
+    font-size: 15.5px;
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+
+  .contact-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    text-align: right;
+  }
+  .contact-list li { margin-bottom: 4px; white-space: nowrap; }
+  .contact-list a { color: var(--ink-soft); text-decoration: none; }
+  .contact-list a:hover { color: var(--accent-2); }
+  .contact-list .fa { width: 16px; margin-right: 6px; color: var(--accent); }
+
+  section { margin-bottom: 28px; }
+  section:last-of-type { margin-bottom: 0; }
+
+  h2.section-title {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--accent);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 6px;
+    margin: 0 0 14px;
+  }
+
+  .summary p { margin: 0; font-size: 14.5px; color: var(--ink); }
+
+  .job { margin-bottom: 20px; }
+  .job:last-child { margin-bottom: 0; }
+
+  .job-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    margin-bottom: 4px;
+  }
+  .job-title { font-size: 15px; font-weight: 700; color: var(--ink); }
+  .job-company { font-size: 13.5px; color: var(--ink-soft); font-weight: 600; }
+  .job-dates { font-size: 12.5px; color: var(--ink-soft); white-space: nowrap; }
+
+  .job ul {
+    margin: 6px 0 0;
+    padding-left: 18px;
+  }
+  .job ul li {
+    font-size: 13.8px;
+    margin-bottom: 4px;
+    color: var(--ink);
+  }
+
+  .skills-groups { display: flex; flex-direction: column; gap: 10px; }
+  .skills-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 13.5px;
+  }
+  .skills-row .label {
+    min-width: 150px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    font-size: 12.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .tag-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    background: var(--bg-tag);
+    color: var(--accent);
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  @media (max-width: 620px) {
+    .two-col { grid-template-columns: 1fr; }
+    .container { padding: 32px 22px; }
+    header.top { flex-direction: column; }
+    .contact-list { text-align: left; }
+    .job-head { flex-direction: column; }
+  }
+
+  .edu-item, .proj-item { margin-bottom: 10px; font-size: 13.8px; }
+  .edu-item:last-child, .proj-item:last-child { margin-bottom: 0; }
+  .edu-degree, .proj-name { font-weight: 700; color: var(--ink); }
+  .edu-meta { color: var(--ink-soft); font-size: 12.5px; }
+  .proj-item a { color: var(--accent); text-decoration: none; }
+  .proj-item a:hover { text-decoration: underline; }
+
+  .lang-list, .interest-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 13.8px;
+  }
+  .lang-list li, .interest-list li { margin-bottom: 4px; }
+  .interest-list .fa { width: 18px; color: var(--accent); }
+
+  @media print {
+    body { background: #fff; }
+    .container { box-shadow: none; margin: 0; padding: 24px; max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<button class="download-btn" id="downloadBtn" onclick="downloadPDF()">
+  <i class="fa fa-download" aria-hidden="true"></i>
+  Download PDF
+</button>
+
+<div class="container" id="resume">
+
+  <header class="top">
+    <div>
+      <h1>Nikoloz Bezhiashvili</h1>
+      <p class="role">Data Engineer — Data Platform &amp; Warehouse Architecture</p>
+    </div>
+    <ul class="contact-list">
+      <li><i class="fa fa-phone" aria-hidden="true"></i>+995 558 612 518</li>
+      <li><i class="fa fa-envelope-o" aria-hidden="true"></i>nikolozbezhiashvili1@gmail.com</li>
+      <li><i class="fa fa-linkedin" aria-hidden="true"></i><a href="https://www.linkedin.com/in/nikoloz-bezhiashvili-066153219/" target="_blank">linkedin.com/in/nikoloz-bezhiashvili</a></li>
+      <li><i class="fa fa-github" aria-hidden="true"></i><a href="https://github.com/NikaBezhiashvili" target="_blank">github.com/NikaBezhiashvili</a></li>
+      <li><i class="fa fa-map-marker" aria-hidden="true"></i>Tbilisi, Georgia</li>
+    </ul>
+  </header>
+
+  <section class="summary">
+    <h2 class="section-title">Profile</h2>
+    <p>
+      Data engineer with 2.5+ years of experience designing and owning production data platforms.
+      Currently the sole data engineer for a multi-brand automotive holding, leading a full SAP-to-ClickHouse
+      data warehouse migration end to end — from raw ABAP/MSSQL report translation to daily pipelines
+      serving hundreds of business users. Strong foundation in ETL/ELT engineering, SQL-heavy systems
+      (ClickHouse, MSSQL, Oracle PL/SQL, PostgreSQL) and Python, built across banking and automotive data
+      environments. Comfortable owning a platform independently, working directly with analysts, data
+      scientists and business stakeholders, and picking up new database and cloud technologies quickly.
+    </p>
+  </section>
+
+  <section class="experience">
+    <h2 class="section-title">Experience</h2>
+
+    <div class="job">
+      <div class="job-head">
+        <div>
+          <div class="job-title">Data Engineer</div>
+          <div class="job-company">Tegeta Holding (Tegeta Motors, Tegeta Bus &amp; Trucks, Porsche, Mazda, Toyota)</div>
         </div>
-
-        <div class="contactInfo contact">
-          <h3 class="title">Contact Info</h3>
-          <ul>
-            <li>
-              <span class="icon"
-                ><i class="fa fa-phone" aria-hidden="true"></i>
-              </span>
-              <span class="text">+995 558 612 518</span>
-            </li>
-            <li>
-              <span class="icon"
-                ><i class="fa fa-envelope-o" aria-hidden="true"></i>
-              </span>
-              <span class="text">nikoloz.bezhiashvili.1@btu.edu.ge</span>
-            </li>
-            <li>
-              <span class="icon"
-                ><i class="fa fa-linkedin" aria-hidden="true"></i>
-              </span>
-              <span class="text"
-                ><a
-                  href="https://www.linkedin.com/in/nikoloz-bezhiashvili-066153219/"
-                  target="_blank"
-                  >www.linkedin.com/NikolozBezhiashvili</a
-                ></span
-              >
-            </li>
-            <li>
-              <span class="icon"
-                ><i class="fa fa-github" aria-hidden="true"></i>
-              </span>
-              <span class="text"
-                ><a href="https://github.com/NikaBezhiashvili" target="_blank"
-                  >https://github.com/NikaBezhiashvili</a
-                ></span
-              >
-            </li>
-            <li>
-              <span class="icon"
-                ><i class="fa fa-map-marker" aria-hidden="true"></i>
-              </span>
-              <span class="text">Georgia, Tbilisi</span>
-            </li>
-          </ul>
-        </div>
-
-        <div class="contactInfo education">
-          <h3 class="title">Education</h3>
-          <ul>
-            <li>
-              <h5>2020 - 2024</h5>
-              <h4>Bachelor Degree in Computer Science</h4>
-              <h4>Business and Technology Univesity</h4>
-            </li>
-          </ul>
-          <ul>
-          <ul>
-            <li>
-              <h5>2023 - 2024</h5>
-              <h4>Data Engineering</h4>
-              <h4>Tbilisi School of Communication</h4>
-            </li>
-          </ul>
-        </div>
-
-        <div class="contactInfo language">
-          <h3 class="title">Languages</h3>
-          <ul>
-            <li>
-              <span class="text">Georgian</span>
-              <span class="percent">
-                <div style="width: 99%"></div>
-              </span>
-            </li>
-            <li>
-              <span class="text">English</span>
-              <span class="percent">
-                <div style="width: 90%"></div>
-              </span>
-            </li>
-            <li>
-              <span class="text">Russian</span>
-              <span class="percent">
-                <div style="width: 50%"></div>
-              </span>
-            </li>
-          </ul>
-        </div>
-
-        <div class="contactInfo contact">
-          <h3 class="title">Projects</h3>
-          <ul>
-            <li>
-              <span class="text"
-                ><a
-                  href="https://github.com/NikaBezhiashvili/SanFranciscoDataset"
-                  target="_blank"
-                  >SanFranciscoDataset</a
-                ></span
-              >
-            </li>
-            <li>
-              <span class="text"
-                ><a
-                  href="https://github.com/NikaBezhiashvili/Real-Time-Data-Ingestion-Processing-and-Analytics-Platform/"
-                  target="_blank"
-                  >Real Time Data Ingestion & Processing, FASTAPI, PostgreSQL</a
-                ></span
-              >
-            </li>
-            <li>
-              <span class="text"
-                ><a
-                  href="https://github.com/NikaBezhiashvili/Data-Cleaning-With-Multiprocessing"
-                  target="_blank"
-                  >Data Cleaning & Analytics with multiprocessing </a
-                ></span
-              >
-            </li>
-            <li>
-              <span class="text"
-                ><a
-                  href="https://github.com/NikaBezhiashvili/ApiToPostgresPipeline"
-                  target="_blank"
-                  >ApiPostgresPipeline</a
-                ></span
-              >
-            </li>
-            <li>
-              <span class="text"
-                ><a
-                  href="https://github.com/NikaBezhiashvili/PysparkSessionBuilder"
-                  target="_blank"
-                  >Pyspark sessionbuilder & log4j2 error handling</a
-                ></span
-              >
-            </li>
-          </ul>
-        </div>
-
-        <div class="contactInfo contact">
-          <span class="text"> Note: Click Project names to open</span>
-        </div>
+        <div class="job-dates">2025 — Present</div>
       </div>
-
-      <div class="right_Side">
-        <div class="about">
-          <h2 class="title2">Profile</h2>
-          <p>
-            always looking for new
-            opportunities and challenges. I distinguish myself from others with
-            my purposefulness, teamwork, and responsibility.
-            following worlds best innovations in Data Engineering and AI,<br /><br />
-            At the moment, my main career goal is to become a Solution Architect in various fields.
-          </p>
-        </div>
-        <div class="about">
-          <h2 class="title2">Experience</h2>
-          <div class="box">
-            <div class="year_company">
-              <h5>2025 - Present</h5>
-              <h5>Tegeta Holding</h5>
-            </div>
-            <div class="text">
-              <h4>Data Engineer</h4>
-               <p>
-                  Building and developing Central Data Warehouse, 
-                  generating ETL/ELT pipelines using Apache Airflow, Clickhouse, MSSQL, Python.
-                  Mentoring and working with Data Analytics/Data Scientists, 
-                  Keeping Tegeta as a challenging company in vehicle field with strong and easily scalable DWH,
-                  Actively using and optimizing AI Sub-Agents to maximize my productivity in project
-               </p>
-            </div>
-          </div>
-          <div class="box">
-            <div class="year_company">
-              <h5>2024 - 2025</h5>
-              <h5>Bank of Georgia</h5>
-            </div>
-            <div class="text">
-              <h4>Data Engineer</h4>
-               <p>
-                  Data Engineer in ML Engineering platform team, building and optimizing internal ETL/ELT using Apache PySpark and Airflow,
-                  modifying and improving 'Silver layer' database structures from Oracle PL/SQL to HDFS database
-               </p>
-            </div>
-          </div>
-        <div class="about">
-          <div class="box">
-            <div class="year_company">
-              <h5>2023 - 2024</h5>
-              <h5>Bank of Georgia</h5>
-            </div>
-            <div class="text">
-              <h4>Data Analyst</h4>
-               <p>
-                  Data analyst in Internal Audit team, analysing company processes with Financial, Operational, IT, Compliance units.
-                  Building up reports using SQL cleaning them with Python Pandas/Numpy libraries, also working with Advanced Excel,
-                  analysing and testing internal PL/SQL processes
-               </p>
-            </div>
-          </div>
-          <div class="box">
-            <div class="year_company">
-              <h5>2023 - 2023</h5>
-              <h5>Bank of Georgia</h5>
-            </div>
-            <div class="text">
-              <h4>Senior Internal Banking Products Support</h4>
-
-            </div>
-          </div>
-          <div class="box">
-            <div class="year_company">
-              <h5>2022 - 2023</h5>
-              <h5>Bank of Georgia</h5>
-            </div>
-            <div class="text">
-              <h4>Advanced Internal Banking Products Support</h4>
-              <p>
-                Customer Systems Support. Working with Jira, Oracle PL/SQL,
-                MongoDB, ETL, Planning teaching, including lectures, seminars/tutorials and learning materials at Oracle SQL Fundamentals
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="about skills">
-          <h2 class="title2">Professional Skills</h2>
-          <div class="box">
-            <h4>Claude AI Agent Management</h4>
-            <div class="percent">
-              <div style="width: 100%"></div>
-            </div>
-          </div>
-          <div class="box">
-            <h4>Python</h4>
-            <div class="percent">
-              <div style="width: 100%"></div>
-            </div>
-          </div>
-          <div class="box">
-            <h4>DataWarehouse Management</h4>
-            <div class="percent">
-              <div style="width: 100%"></div>
-            </div>
-          </div>
-
-          <div class="box">
-            <h4>Agile Methodology</h4>
-            <div class="percent">
-              <div style="width: 100%"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="about interest">
-          <h2 class="title2">Interest</h2>
-          <ul>
-            <li><i class="fa fa-code" aria-hidden="true"></i>Coding</li>
-            <li><i class="fa fa-book" aria-hidden="true"></i>AI Agent Management</li>
-            <li><i class="fa fa-play" aria-hidden="true"></i>Music</li>
-          </ul>
-        </div>
-      </div>
+      <ul>
+        <li>Sole data engineer for the group, owning a SAP-to-ClickHouse data warehouse migration end to end — from architecture and ETL design to production support.</li>
+        <li>Translated roughly 50 legacy SAP ABAP/MSSQL reports into ClickHouse across the group's SAP landscape, covering an estimated 100TB of underlying data.</li>
+        <li>Designed and maintain around 25 daily production pipelines (Airflow, Meltano, ClickHouse, MSSQL) used by roughly 400 business users.</li>
+        <li>Built reusable Meltano-based connectors for SAP OData/API ingestion, SharePoint migrations, and ClickHouse/MSSQL/MongoDB/PostgreSQL data transfers.</li>
+        <li>Sole technical point of contact and mentor for a team of ~10 data analysts and data scientists building on top of the warehouse.</li>
+        <li>Uses Python, dbt, Git and CI/CD to keep pipeline development version-controlled, tested and repeatable; integrates AI coding agents into the workflow to speed up development.</li>
+      </ul>
     </div>
 
-    <script>
-      async function downloadPDF() {
-        const btn = document.getElementById('downloadBtn');
-        const resume = document.getElementById('resume');
+    <div class="job">
+      <div class="job-head">
+        <div>
+          <div class="job-title">Data Engineer, ML Engineering Platform</div>
+          <div class="job-company">Bank of Georgia</div>
+        </div>
+        <div class="job-dates">2024 — 2025</div>
+      </div>
+      <ul>
+        <li>One of 10 data engineers on the ML Engineering platform team, working within one of the largest data environments among Georgian companies.</li>
+        <li>Built and optimized roughly 50 internal ETL/ELT pipelines (Apache PySpark, Airflow) supporting data analytics, data science and internal audit projects.</li>
+        <li>Migrated and improved "Silver layer" database structures from Oracle PL/SQL to HDFS.</li>
+      </ul>
+    </div>
 
-        // Show loading state
-        btn.classList.add('loading');
-        btn.innerHTML = '<i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Generating...';
+    <div class="job">
+      <div class="job-head">
+        <div>
+          <div class="job-title">Data Analyst, Internal Audit</div>
+          <div class="job-company">Bank of Georgia</div>
+        </div>
+        <div class="job-dates">2023 — 2024</div>
+      </div>
+      <ul>
+        <li>Analyzed company processes across Financial, Operational, IT and Compliance units.</li>
+        <li>Built SQL-based audit reports; cleaned and validated data with Python (Pandas/NumPy) and Advanced Excel.</li>
+        <li>Tested and reviewed internal Oracle PL/SQL processes.</li>
+      </ul>
+    </div>
 
-        try {
-          // Use scale 1.5 instead of 2 — still sharp but much smaller file
-          const canvas = await html2canvas(resume, {
-            scale: 1.5,
-            useCORS: true,
-            logging: false,
-            backgroundColor: '#ffffff'
-          });
+    <div class="job">
+      <div class="job-head">
+        <div>
+          <div class="job-title">Banking Products Support (Advanced → Senior)</div>
+          <div class="job-company">Bank of Georgia</div>
+        </div>
+        <div class="job-dates">2022 — 2023</div>
+      </div>
+      <ul>
+        <li>Customer systems support working with Jira, Oracle PL/SQL, MongoDB and ETL processes.</li>
+        <li>Planned and delivered internal training, including lectures and seminars on Oracle SQL Fundamentals.</li>
+      </ul>
+    </div>
+  </section>
 
-          const { jsPDF } = window.jspdf;
+  <section class="additional">
+    <h2 class="section-title">Additional Experience</h2>
+    <div class="job">
+      <div class="job-head">
+        <div class="job-title">Independent Projects — Data &amp; Backend Architecture</div>
+      </div>
+      <ul>
+        <li>Designed backend and data architecture for an independent delivery-platform project: FastAPI services, self-hosted PostgreSQL/PostGIS, Keycloak authentication, and VPS deployment/infrastructure.</li>
+      </ul>
+    </div>
+  </section>
 
-          const pageWidth = 210;
-          const pageHeight = 297;
-          const imgHeight = (canvas.height * pageWidth) / canvas.width;
-          const pdfHeight = Math.max(pageHeight, imgHeight);
-          const pdf = new jsPDF('p', 'mm', [pageWidth, pdfHeight]);
+  <section class="skills">
+    <h2 class="section-title">Skills</h2>
+    <div class="skills-groups">
+      <div class="skills-row">
+        <span class="label">Languages &amp; Core</span>
+        <span class="tag-wrap">
+          <span class="tag">Python</span><span class="tag">SQL</span>
+        </span>
+      </div>
+      <div class="skills-row">
+        <span class="label">Databases &amp; Warehousing</span>
+        <span class="tag-wrap">
+          <span class="tag">ClickHouse</span><span class="tag">MSSQL</span><span class="tag">Oracle PL/SQL</span><span class="tag">PostgreSQL</span><span class="tag">MongoDB</span>
+        </span>
+      </div>
+      <div class="skills-row">
+        <span class="label">ETL / Orchestration</span>
+        <span class="tag-wrap">
+          <span class="tag">Apache Airflow</span><span class="tag">Apache PySpark</span><span class="tag">Meltano</span><span class="tag">dbt</span>
+        </span>
+      </div>
+      <div class="skills-row">
+        <span class="label">Integration</span>
+        <span class="tag-wrap">
+          <span class="tag">SAP OData / CDS Views</span><span class="tag">REST APIs</span>
+        </span>
+      </div>
+      <div class="skills-row">
+        <span class="label">Practices &amp; Tools</span>
+        <span class="tag-wrap">
+          <span class="tag">Git</span><span class="tag">CI/CD</span><span class="tag">Agile</span>
+        </span>
+      </div>
+    </div>
+  </section>
 
-          // Use JPEG at 0.85 quality instead of PNG — drops size from ~24MB to ~2-4MB
-          const imgData = canvas.toDataURL('image/jpeg', 0.85);
+  <div class="two-col">
+    <section class="education">
+      <h2 class="section-title">Education</h2>
+      <div class="edu-item">
+        <div class="edu-degree">B.Sc. Computer Science</div>
+        <div class="edu-meta">Business and Technology University · 2020 — 2024</div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-degree">Data Engineering (Certificate)</div>
+        <div class="edu-meta">Tbilisi School of Communication · 2023 — 2024</div>
+      </div>
+    </section>
 
-          pdf.addImage(
-            imgData,
-            'JPEG',
-            0,
-            0,
-            pageWidth,
-            imgHeight,
-            undefined,
-            'FAST'  // jsPDF compression mode
-          );
+    <section class="languages">
+      <h2 class="section-title">Languages</h2>
+      <ul class="lang-list">
+        <li>Georgian — Native</li>
+        <li>English — Fluent</li>
+        <li>Russian — Conversational</li>
+      </ul>
+    </section>
+  </div>
 
-          pdf.save('Nikoloz_Bezhiashvili_Resume.pdf');
-        } catch (error) {
-          console.error('PDF generation failed:', error);
-          alert('Failed to generate PDF. Please try again.');
-        }
+  <section class="projects">
+    <h2 class="section-title">Projects</h2>
+    <div class="proj-item"><a href="https://github.com/NikaBezhiashvili/Real-Time-Data-Ingestion-Processing-and-Analytics-Platform/" target="_blank" class="proj-name">Real-Time Data Ingestion &amp; Processing Platform</a> — FastAPI, PostgreSQL</div>
+    <div class="proj-item"><a href="https://github.com/NikaBezhiashvili/ApiToPostgresPipeline" target="_blank" class="proj-name">API-to-Postgres Pipeline</a></div>
+    <div class="proj-item"><a href="https://github.com/NikaBezhiashvili/PysparkSessionBuilder" target="_blank" class="proj-name">PySpark Session Builder &amp; log4j2 Error Handling</a></div>
+    <div class="proj-item"><a href="https://github.com/NikaBezhiashvili/Data-Cleaning-With-Multiprocessing" target="_blank" class="proj-name">Data Cleaning &amp; Analytics with Multiprocessing</a></div>
+    <div class="proj-item"><a href="https://github.com/NikaBezhiashvili/SanFranciscoDataset" target="_blank" class="proj-name">San Francisco Dataset Analysis</a></div>
+  </section>
 
-        // Reset button
-        btn.classList.remove('loading');
-        btn.innerHTML = '<i class="fa fa-download" aria-hidden="true"></i> Download PDF';
-      }
-    </script>
-  </body>
+  <section class="interest">
+    <h2 class="section-title">Interests</h2>
+    <ul class="interest-list">
+      <li><i class="fa fa-code" aria-hidden="true"></i>Coding &amp; data platform tooling</li>
+      <li><i class="fa fa-play" aria-hidden="true"></i>Music</li>
+    </ul>
+  </section>
+
+</div>
+
+<script>
+async function downloadPDF() {
+  const btn = document.getElementById('downloadBtn');
+  const resume = document.getElementById('resume');
+
+  btn.classList.add('loading');
+  btn.innerHTML = '<i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Generating...';
+
+  try {
+    const canvas = await html2canvas(resume, {
+      scale: 1.5,
+      useCORS: true,
+      logging: false,
+      backgroundColor: '#ffffff'
+    });
+
+    const { jsPDF } = window.jspdf;
+    const pageWidth = 210;
+    const pageHeight = 297;
+    const imgHeight = (canvas.height * pageWidth) / canvas.width;
+    const pdfHeight = Math.max(pageHeight, imgHeight);
+
+    const pdf = new jsPDF('p', 'mm', [pageWidth, pdfHeight]);
+    const imgData = canvas.toDataURL('image/jpeg', 0.85);
+    pdf.addImage(imgData, 'JPEG', 0, 0, pageWidth, imgHeight, undefined, 'FAST');
+    pdf.save('Nikoloz_Bezhiashvili_Resume.pdf');
+  } catch (error) {
+    console.error('PDF generation failed:', error);
+    alert('Failed to generate PDF. Please try again.');
+  }
+
+  btn.classList.remove('loading');
+  btn.innerHTML = '<i class="fa fa-download" aria-hidden="true"></i> Download PDF';
+}
+</script>
+
+</body>
 </html>
